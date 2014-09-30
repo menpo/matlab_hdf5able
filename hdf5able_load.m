@@ -14,9 +14,17 @@ else
 end
 
 
-info = h5info(filename);
-% assumes that there is one top level group, should check for /hdf5able
-output = hdf5able_load_type(filename, info.Groups(1), mode);
+node = h5info(filename);
+% need to find the /hdf5able group, then we can import it
+for i = 1:length(node.Groups)
+    group = node.Groups(i);
+    if strcmp(group.Name, '/hdf5able')
+        output = hdf5able_load_type(filename, node.Groups(1), mode);
+        return;
+    end
+end
+% made it all the way down here -> didn't find a /hdf5able group
+error('no ''/hdf5able'' top level group found');
 end
 
 
