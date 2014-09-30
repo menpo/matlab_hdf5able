@@ -145,3 +145,22 @@ end
 function output = hdf5able_load_none()
 output = [];
 end
+
+
+function value = find_attribute(attributes, name)
+
+found = 0;
+
+for attr_i = 1:length(attributes)
+    attr = attributes(attr_i);
+    if strcmp(attr.Name, name)
+       value = attr.Value;
+       found = 1;
+    end
+end
+
+if ~found
+    error(['Cannot find attribute ''' name '''']);
+end
+
+end
